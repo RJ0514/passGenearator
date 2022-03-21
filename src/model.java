@@ -4,9 +4,12 @@ public class model
 {
     private String strPassword;
     private int passLength;
+    private Boolean strSpecialChar;
+    private Boolean bInt;
 
     public model(){
         strPassword = "";
+        bInt = strSpecialChar = false;
     }
     /*
     * Function that generates random Upper and Lowercase characters.*/
@@ -22,7 +25,13 @@ public class model
 
     public char randoSpecialChar(){
         Random r = new Random();
-        String s = "0123456789_!@#$%&*/~";
+        String s = "_";
+        if(strSpecialChar && bInt)
+            s = "0123456789_!@#$%&*/~";
+        else if(strSpecialChar)
+            s = "_!@#$%&*/~";
+        else if(bInt)
+            s = "0123456789";
 
         return s.charAt(r.nextInt(s.length()));
     }
@@ -30,12 +39,13 @@ public class model
     public void generatePassword(){
         StringBuilder s = new StringBuilder();
         Random r = new Random();
-
-        for (int i = 0; i < passLength; i++) {
+        int i = 0;
+        while(s.length() < passLength) {
             if(i % (r.nextInt(passLength) + 1) == 0)
                 s.append(randoChar(i));
             else
                 s.append(randoSpecialChar());
+            i++;
         }
         strPassword = s.toString();
     }
@@ -46,6 +56,14 @@ public class model
 
     public void setPassLength(int len){
         passLength = len;
+    }
+
+    public void setbInt(Boolean bInt) {
+        this.bInt = bInt;
+    }
+
+    public void setStrSpecialChar(Boolean strSpecialChar) {
+        this.strSpecialChar = strSpecialChar;
     }
 
     public static void main(String[] args) {

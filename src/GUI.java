@@ -1,7 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
+    private JLabel passResult;
+    private JCheckBox specialChar;
+    private JCheckBox addNum;
+    private JTextField numChar;
+    JButton btnGenerate;
+
     public GUI() {
         super("BorderLayout");
         setSize(350,200);
@@ -9,13 +16,14 @@ public class GUI extends JFrame {
         setLayout(new BorderLayout());
 
         setup();
+        setResizable(false);
         setVisible(true);
     }
     public void setup(){
         JPanel titleLabel = new JPanel();
         titleLabel.setLayout(new FlowLayout());
 
-        JLabel tempLabel = new JLabel("TITLE HERE");
+        JLabel tempLabel = new JLabel("Password Generator");
         tempLabel.setFont(tempLabel.getFont().deriveFont(20.0F));
         titleLabel.add(tempLabel);
         add(titleLabel,BorderLayout.NORTH);
@@ -23,13 +31,13 @@ public class GUI extends JFrame {
         //Center
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new FlowLayout());
-        JCheckBox specialChar = new JCheckBox("Special Characters");
+        specialChar = new JCheckBox("Special Characters");
         centerPanel.add(specialChar);
-        JCheckBox addNum = new JCheckBox("Add Numbers");
+        addNum = new JCheckBox("Add Numbers");
         centerPanel.add(addNum);
 
         tempLabel = new JLabel("Number of Characters:");
-        JTextField numChar = new JTextField(5);
+        numChar = new JTextField(5);
         centerPanel.add(tempLabel);
         centerPanel.add(numChar);
         add(centerPanel,BorderLayout.CENTER);
@@ -37,19 +45,41 @@ public class GUI extends JFrame {
         //South
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new FlowLayout());
-        JButton btnGenerate = new JButton("Generate Password");
+        btnGenerate = new JButton("Generate Password");
+
         southPanel.add(btnGenerate);
 
-        tempLabel = new JLabel("Temp String");
-        tempLabel.setVisible(false);
-        southPanel.add(tempLabel);
+        passResult = new JLabel("Temp String");
+        passResult.setVisible(false);
+        southPanel.add(passResult);
         add(southPanel,BorderLayout.SOUTH);
 
     }
 
-    public static void main(String[] args) {
-        GUI testGUI = new GUI();
+    /*Getter to display the password.*/
+    public void displayPassword(String pw){
+        passResult.setText(pw);
+        passResult.setVisible(true);
+    }
 
+    public void ActionListener(){
 
+    }
+
+    /*Conditions to check if checkbox is selected.*/
+    public boolean sChar(){  // Special Characters
+        return specialChar.isSelected();
+    }
+
+    public boolean bNum(){  //Numbers
+        return addNum.isSelected();
+    }
+
+    public int charNum(){ // Number of Characters
+        return Integer.parseInt(numChar.getText());
+    }
+
+    public void setActionListener(ActionListener listener) {
+        btnGenerate.addActionListener(listener);
     }
 }
